@@ -67,6 +67,28 @@ pipeline {
             }
         }
 
+stage('Wait For EC2') {
+    steps {
+        sh 'sleep 60'
+    }
+}
+stage('Deploy Application') {
+    steps {
+        withCredentials([
+            sshUserPrivateKey(
+                credentialsId: 'ec2-key',
+                keyFileVariable: 'SSH_KEY'
+            )
+        ]) {
+            sh """
+            ssh -o StrictHostKeyChecking=no \
+            -i $SSH_KEY \
+            ec2-user@$SERVER_IP \
+            'hostname'
+            """
+        }
+    }
+}
        stage('Deploy Application') {
     steps {
         sshagent(credentials: ['azlin-key']) {
