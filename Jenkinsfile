@@ -14,8 +14,9 @@ pipeline {
 	stage('AWS Test') {
     		steps {
         		sh 'whoami'
+        		sh 'echo $HOME'
+        		sh 'ls -la ~/.aws || true'
         		sh 'aws sts get-caller-identity'
-        		sh 'env | grep AWS || true'
     		}
 	}
 
