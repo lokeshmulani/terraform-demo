@@ -68,17 +68,17 @@ pipeline {
         }
 
         stage('Deploy Application') {
-            steps {
-                sh """
-                scp -o StrictHostKeyChecking=no \
-                app/index.html \
-                ec2-user@${SERVER_IP}:/tmp/index.html
+sshagent(credentials: ['azlin-key']) {
+    sh """
+    scp -o StrictHostKeyChecking=no \
+    app/index.html \
+    ec2-user@${SERVER_IP}:/tmp/index.html
 
-                ssh -o StrictHostKeyChecking=no \
-                ec2-user@${SERVER_IP} \
-                'sudo cp /tmp/index.html /var/www/html/index.html'
-                """
-            }
+    ssh -o StrictHostKeyChecking=no \
+    ec2-user@${SERVER_IP} \
+    'sudo cp /tmp/index.html /var/www/html/index.html'
+    """
+}
         }
     }
 }
