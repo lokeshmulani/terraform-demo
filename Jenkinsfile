@@ -10,6 +10,17 @@ pipeline {
             }
         }
 
+
+	stage('AWS Test') {
+    		steps {
+        		sh 'whoami'
+        		sh 'aws sts get-caller-identity'
+        		sh 'env | grep AWS || true'
+    		}
+	}
+
+
+
         stage('Terraform Init') {
             steps {
                 dir('terraform') {
