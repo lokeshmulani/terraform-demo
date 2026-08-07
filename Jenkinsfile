@@ -85,25 +85,13 @@ stage('Deploy Application') {
             -i $SSH_KEY \
             ec2-user@$SERVER_IP \
             'hostname'
-            """
-        }
-    }
-}
-       stage('Deploy Application') {
-    steps {
-        sshagent(credentials: ['azlin-key']) {
-            sh """
-                scp -o StrictHostKeyChecking=no \
-                app/index.html \
-                ec2-user@${SERVER_IP}:/tmp/index.html
+'sudo cp /tmp/index.html /var/www/html/index.html'
 
-                ssh -o StrictHostKeyChecking=no \
-                ec2-user@${SERVER_IP} \
-                'sudo cp /tmp/index.html /var/www/html/index.html'
             """
         }
     }
 }
+
         
  
 }
