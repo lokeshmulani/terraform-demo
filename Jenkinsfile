@@ -76,7 +76,7 @@ stage('Deploy Application') {
     steps {
         withCredentials([
             sshUserPrivateKey(
-                credentialsId: 'ec2-key',
+                credentialsId: 'azlin-key',
                 keyFileVariable: 'SSH_KEY'
             )
         ]) {
