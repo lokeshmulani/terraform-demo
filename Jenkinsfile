@@ -74,24 +74,24 @@ stage('Wait For EC2') {
 }
 stage('Deploy Application') {
     steps {
-        withCredentials([
-            sshUserPrivateKey(
-                credentialsId: 'azlin',
-                keyFileVariable: 'SSH_KEY'
-            )
-        ]) {
+        withCredentials([sshUserPrivateKey(
+            credentialsId: 'azlin',
+            keyFileVariable: 'SSH_KEY'
+        )]) {
+
             sh """
+            scp -o StrictHostKeyChecking=no \
+            -i $SSH_KEY \
+            index.html ec2-user@${SERVER_IP}:temp/index.html
+
             ssh -o StrictHostKeyChecking=no \
             -i $SSH_KEY \
-            ec2-user@$SERVER_IP \
-            'hostname'
-'sudo cp /tmp/index.html /var/www/html/index.html'
-
+            ec2-user@${SERVER_IP} \
+            'sudo cp temp/index.html /var/www/html/index.html'
             """
         }
     }
 }
-
         
  
 }
