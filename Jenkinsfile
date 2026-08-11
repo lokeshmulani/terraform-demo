@@ -82,10 +82,8 @@ stage('Deploy Application') {
             sh """
 		scp -o StrictHostKeyChecking=no -i $SSH_KEY app/index.html ec2-user@${SERVER_IP}:/tmp/index.html
             
-		ssh -o StrictHostKeyChecking=no \
-            -i $SSH_KEY \
-            ec2-user@${SERVER_IP} \
-            'sudo cp temp/index.html /var/www/html/index.html'
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY ec2-user@$SERVER_IP \
+'sudo cp tmp/index.html /var/www/html/index.html'
             """
         }
     }
